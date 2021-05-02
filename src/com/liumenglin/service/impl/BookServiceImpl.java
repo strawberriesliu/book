@@ -47,8 +47,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Page<Book> page(int pageNo, int pageSize) {
         Page<Book> page = new Page<>();
-        // 设置当前页码
-        page.setPageNo(pageNo);
+
         // 设置当前页显示数量
         page.setPageSize(pageSize);
         // 设置总记录数
@@ -56,13 +55,45 @@ public class BookServiceImpl implements BookService {
         page.setPageTotalCount(pageTotalCount);
         // 设置总页码
         Integer pageTotal = pageTotalCount / pageSize;
+
         if (pageTotalCount % pageSize > 0) {
             pageTotal += 1;
         }
         page.setPageTotal(pageTotal);
+
+        // 设置当前页码
+        page.setPageNo(pageNo);
+
         // 设置当前页数据
         int begin = (page.getPageNo() - 1) * pageSize;
         List<Book> items = bookDao.queryForItems(begin, pageSize);
+        page.setItems(items);
+        return page;
+    }
+
+    @Override
+    public Page<Book> pageByPrice(int pageNo, int pageSize, int min, int max) {
+        Page<Book> page = new Page<>();
+
+        // 设置当前页显示数量
+        page.setPageSize(pageSize);
+        // 设置总记录数
+        Integer pageTotalCount = bookDao.queryForPageTotalCountByPrice(min, max);
+        page.setPageTotalCount(pageTotalCount);
+        // 设置总页码
+        Integer pageTotal = pageTotalCount / pageSize;
+
+        if (pageTotalCount % pageSize > 0) {
+            pageTotal += 1;
+        }
+        page.setPageTotal(pageTotal);
+
+        // 设置当前页码
+        page.setPageNo(pageNo);
+
+        // 设置当前页数据
+        int begin = (page.getPageNo() - 1) * pageSize;
+        List<Book> items = bookDao.queryForItemsByPrice(begin, pageSize, min, max);
         page.setItems(items);
         return page;
     }

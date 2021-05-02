@@ -28,12 +28,31 @@ public class Page<T>{
     private Integer pageTotalCount;
     // 当前页数据
     private List<T> items;
+    //分页条的请求地址
+    private String url;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public Integer getPageNo() {
         return pageNo;
     }
 
     public void setPageNo(Integer pageNo) {
+
+        // 数据边界的有效性检查
+        if(pageNo < 1){
+            pageNo = 1;
+        }
+        if(pageNo > pageTotal){
+            pageNo = pageTotal;
+        }
+
         this.pageNo = pageNo;
     }
 
@@ -78,6 +97,7 @@ public class Page<T>{
                 ", pageSize=" + pageSize +
                 ", pageTotalCount=" + pageTotalCount +
                 ", items=" + items +
+                ", url='" + url + '\'' +
                 '}';
     }
 }
