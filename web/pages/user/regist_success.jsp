@@ -25,15 +25,17 @@
 				<img class="logo_img" alt="" src="static/img/logo.gif" >
 				<span class="wel_word"></span>
 
-			<%--静态包含，登录 成功之后的菜单 --%>
-			<%@ include file="/pages/common/login_success_menu.jsp"%>
+			<div>
+				<span>欢迎<span class="um_span">${ sessionScope.user.username }</span>光临小刘书城</span>
+				<a href="index.jsp">返回</a>
+			</div>
 
 
 		</div>
 		
 		<div id="main">
 		
-			<h1>注册成功! <a href="../../index.jsp">转到主页</a></h1>
+			<h1>注册成功! <a href="index.jsp">转到主页</a></h1>
 	
 		</div>
 

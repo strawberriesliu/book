@@ -80,6 +80,7 @@ public class BookServlet extends BaseServlet{
         List<Book> books = bookService.queryBooks();
         // 2、把全部图书保存到Request域中
         req.setAttribute("books", books);
+
         // 3、请求转发到/pages/manager/book_manager.jsp页面
         req.getRequestDispatcher("/pages/manager/book_manager.jsp").forward(req, resp);
     }

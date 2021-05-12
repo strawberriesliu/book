@@ -40,6 +40,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Book queryBookByName(String name) {
+        return bookDao.queryBookByName(name);
+    }
+
+    @Override
     public List<Book> queryBooks() {
         return bookDao.queryBooks();
     }

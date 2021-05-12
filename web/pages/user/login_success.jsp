@@ -22,8 +22,6 @@
 </head>
 <body>
 		<div id="header">
-				<img class="logo_img" alt="" src="static/img/logo.gif" >
-
 				<%--静态包含，登录 成功之后的菜单 --%>
 				<%@ include file="/pages/common/login_success_menu.jsp"%>
 
@@ -32,7 +30,7 @@
 		
 		<div id="main">
 		
-			<h1>欢迎回来 <a href="../../index.jsp">转到主页</a></h1>
+			<h1>欢迎回来 <a href="index.jsp">转到主页</a></h1>
 	
 		</div>
 

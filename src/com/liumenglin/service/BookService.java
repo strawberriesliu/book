@@ -23,6 +23,8 @@ public interface BookService {
 
     Book queryBookById(Integer id);
 
+    Book queryBookByName(String name);
+
     List<Book> queryBooks();
 
     Page<Book> page(int pageNo, int pageSize);

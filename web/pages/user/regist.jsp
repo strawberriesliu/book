@@ -8,10 +8,33 @@
 		<%-- 静态包含 base标签、css样式、jQuery文件 --%>
 		<%@ include file="/pages/common/head.jsp"%>
 
-
 		<script type="text/javascript">
 			// 页面加载完成之后
 			$(function () {
+
+				// 给用户名绑定失去焦点事件
+				$("#username").blur(function (){
+					// 1 获取用户名
+					var username = this.value;
+
+					$.getJSON("http://localhost:8080/book/userServlet", "action=ajaxExistUsername&username=" +
+							username, function (data){
+						if(data.existsUsername){
+							$("span.errorMsg").text("用户名已存在！");
+						} else{
+							$("span.errorMsg").text("用户名可用！");
+						}
+					});
+
+				});
+
+
+				// 给验证码的图片绑定单击事件
+				$("#code_img").click(function (){
+					this.src = "${basePath}kaptcha.jpg?d=" + new Date();
+				});
+
+
 				// 给注册绑定单击事件
 				$("#sub_btn").click(function () {
 					// 验证用户名：必须由字母，数字下划线组成，并且长度为5到12位
@@ -97,7 +120,6 @@
 	</head>
 	<body>
 		<div id="login_header">
-			<img class="logo_img" alt="" src="static/img/logo.gif" >
 		</div>
 
 			<div class="login_banner">
@@ -141,8 +163,9 @@
 									<br />
 									<br />
 									<label>验证码：</label>
-									<input class="itxt" type="text" name="code" style="width: 150px;" id="code" />
-									<img alt="" src="static/img/code.bmp" style="float: right; margin-right: 40px">
+									<input class="itxt" type="text" name="code" style="width: 100px;" id="code" />
+									<img id = "code_img" alt="" src="kaptcha.jpg"
+										 style="width:100px; height:40px; float: right; margin-right: 50px">
 									<br />
 									<br />
 									<input type="submit" value="注册" id="sub_btn" />

@@ -21,6 +21,8 @@ public interface BookDao {
 
     Book queryBookById(Integer id);
 
+    Book queryBookByName(String name);
+
     List<Book> queryBooks();
 
     Integer queryForPageTotalCount();

@@ -10,13 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Package: com.liumenglin.web
- * Description: TODO
- * Author: menglin liu
- * Date: 2021/4/12 19:32
- * Version 1.0
- */
 public class LoginServlet extends HttpServlet {
 
     private UserService userService = new UserServiceImpl();

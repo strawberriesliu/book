@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
+
 /**
  * Package: com.liumenglin.web
  * Description: TODO
@@ -23,14 +25,19 @@ public class RegistServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+
         // 1、获取请求参数
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         String email = req.getParameter("email");
         String code = req.getParameter("code");
 
-        // 2、检查验证码是否正确（暂时先写死）
-        if("abcde".equalsIgnoreCase(code)){
+        // 2、检查验证码是否正确
+        // 获取Session中的验证码
+        String token = (String) req.getSession().getAttribute(KAPTCHA_SESSION_KEY);
+        req.getSession().removeAttribute(KAPTCHA_SESSION_KEY);
+        if(token != null && token.equalsIgnoreCase(code)){
             // 验证码正确
             // 3、检查用户名是否可用（调用userService的方法existsUsername检查）
             if(userService.existsUsername(username)){

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -8,6 +9,13 @@
 	<%-- 静态包含 base标签、css样式、jQuery文件 --%>
 	<%@ include file="/pages/common/head.jsp"%>
 
+	<script type="text/javascript">
+		$(function (){
+			$("a.sendOrder").click(function (){
+				return confirm("您确定要发货吗？")
+			});
+		});
+	</script>
 
 </head>
 <body>
@@ -29,27 +37,40 @@
 				<td>详情</td>
 				<td>发货</td>
 				
-			</tr>		
-			<tr>
-				<td>2015.04.23</td>
-				<td>90.00</td>
-				<td><a href="#">查看详情</a></td>
-				<td><a href="#">点击发货</a></td>
-			</tr>	
-			
-			<tr>
-				<td>2015.04.20</td>
-				<td>20.00</td>
-				<td><a href="#">查看详情</a></td>
-				<td>已发货</td>
-			</tr>	
-			
-			<tr>
-				<td>2014.01.23</td>
-				<td>190.00</td>
-				<td><a href="#">查看详情</a></td>
-				<td>等待收货</td>
-			</tr>		
+			</tr>
+
+
+			<c:forEach items="${requestScope.orders}" var="order">
+
+				<c:if test="${ order.status == 0 }">
+					<tr>
+						<td>${order.createTime.toLocaleString()}</td>
+						<td>${order.price}</td>
+						<td><a href="manager/orderServlet?action=showOrderDetail&orderId=${order.orderId}">查看详情</a></td>
+						<td><a class = "sendOrder" href="manager/orderServlet?action=sendOrder&orderId=${order.orderId}">点击发货</a></td>
+					</tr>
+				</c:if>
+
+				<c:if test="${ order.status == 1 }">
+					<tr>
+						<td>${order.createTime.toLocaleString()}</td>
+						<td>${order.price}</td>
+						<td><a href="manager/orderServlet?action=showOrderDetail&orderId=${order.orderId}">查看详情</a></td>
+						<td>已发货</td>
+					</tr>
+				</c:if>
+
+				<c:if test="${ order.status == 2 }">
+					<tr>
+						<td>${order.createTime.toLocaleString()}</td>
+						<td>${order.price}</td>
+						<td><a href="manager/orderServlet?action=showOrderDetail&orderId=${order.orderId}">查看详情</a></td>
+						<td>已完成</td>
+					</tr>
+				</c:if>
+
+			</c:forEach>
+
 		</table>
 	</div>
 

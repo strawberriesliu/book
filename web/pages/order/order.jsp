@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -7,6 +8,14 @@
 
 	<%-- 静态包含 base标签、css样式、jQuery文件 --%>
 	<%@ include file="/pages/common/head.jsp"%>
+
+	<script type="text/javascript">
+		$(function (){
+			$("a.receiverOrder").click(function (){
+				return confirm("您确定要确认收货吗？")
+			});
+		});
+	</script>
 
 
 	<style type="text/css">
@@ -19,7 +28,6 @@
 <body>
 	
 	<div id="header">
-			<img class="logo_img" alt="" src="../../static/img/logo.gif" >
 			<span class="wel_word">我的订单</span>
 
 		<%--静态包含，登录 成功之后的菜单 --%>
@@ -36,27 +44,46 @@
 				<td>金额</td>
 				<td>状态</td>
 				<td>详情</td>
-			</tr>		
-			<tr>
-				<td>2015.04.23</td>
-				<td>90.00</td>
-				<td>未发货</td>
-				<td><a href="#">查看详情</a></td>
-			</tr>	
-			
-			<tr>
-				<td>2015.04.20</td>
-				<td>20.00</td>
-				<td>已发货</td>
-				<td><a href="#">查看详情</a></td>
-			</tr>	
-			
-			<tr>
-				<td>2014.01.23</td>
-				<td>190.00</td>
-				<td>已完成</td>
-				<td><a href="#">查看详情</a></td>
-			</tr>		
+			</tr>
+
+			<c:if test="${empty requestScope.myOrders}">
+				<tr>
+					<td colspan="5"><a href="index.jsp">亲，您的订单为空！快回书城浏览商品吧！！！</a></td>
+				</tr>
+			</c:if>
+
+			<c:if test="${not empty requestScope.myOrders}">
+				<c:forEach items="${requestScope.myOrders}" var="myOrder">
+
+					<c:if test="${ myOrder.status == 0 }">
+						<tr>
+							<td>${myOrder.createTime.toLocaleString()}</td>
+							<td>${myOrder.price}</td>
+							<td>未发货</td>
+							<td><a href="orderServlet?action=showOrderDetail&orderId=${myOrder.orderId}">查看详情</a></td>
+						</tr>
+					</c:if>
+
+					<c:if test="${ myOrder.status == 1 }">
+						<tr>
+							<td>${myOrder.createTime.toLocaleString()}</td>
+							<td>${myOrder.price}</td>
+							<td><a class="receiverOrder" href="orderServlet?action=receiverOrder&orderId=${myOrder.orderId}">确认收货</a></td>
+							<td><a href="orderServlet?action=showOrderDetail&orderId=${myOrder.orderId}">查看详情</a></td>
+						</tr>
+					</c:if>
+
+					<c:if test="${ myOrder.status == 2 }">
+						<tr>
+							<td>${myOrder.createTime.toLocaleString()}</td>
+							<td>${myOrder.price}</td>
+							<td>订单已完成</td>
+							<td><a href="orderServlet?action=showOrderDetail&orderId=${myOrder.orderId}">查看详情</a></td>
+						</tr>
+					</c:if>
+
+				</c:forEach>
+			</c:if>
 		</table>
 		
 	

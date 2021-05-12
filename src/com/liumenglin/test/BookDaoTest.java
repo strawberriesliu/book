@@ -43,6 +43,11 @@ public class BookDaoTest {
     }
 
     @Test
+    public void queryBookByName() {
+        System.out.println( bookDao.queryBookByName("红楼梦") );
+    }
+
+    @Test
     public void queryBooks() {
         for(Book queryBook : bookDao.queryBooks()){
             System.out.println(queryBook);

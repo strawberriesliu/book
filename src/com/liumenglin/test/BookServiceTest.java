@@ -41,6 +41,11 @@ public class BookServiceTest {
     }
 
     @Test
+    public void queryBookByName() {
+        System.out.println(bookService.queryBookByName("飘"));
+    }
+
+    @Test
     public void queryBooks() {
         for(Book queryBook : bookService.queryBooks()){
             System.out.println(queryBook);
